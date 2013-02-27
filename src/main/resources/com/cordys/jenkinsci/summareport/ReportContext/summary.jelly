@@ -1,0 +1,39 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+         xmlns:t="/lib/hudson">
+      <j:if test="${!empty(it.offlineSlaves)}">
+            <div>
+                ${%Offline nodes:}
+                <j:forEach var="n" items="${it.offlineSlaves}">
+                    <j:set var="c" value="${app.getComputer(n)}"/>
+                    <a href="${rootURL}/computer/${n.nodeName}" class="model-link">
+                        <img src="${imagesURL}/24x24/${c.icon}" width="24" height="24" alt=""/>
+                        ${c.displayName}
+                    </a>
+                    <st:nbsp/>
+                </j:forEach>
+            </div>
+          <div>
+              ${%Failing jobs:}
+              <j:forEach var="n" items="${it.failingJobs}">
+                  <j:set var="c" value="${app.getJob(n)}"/>
+                  <a href="${rootURL}/job/${n}" class="model-link">
+                      <img src="${imagesURL}/24x24/${c.iconColor}.png" width="24" height="24" alt=""/>
+                      ${c.displayName}
+                  </a>
+                  <st:nbsp/>
+              </j:forEach>
+          </div>
+          <div>
+              ${%Unstable jobs:}
+              <j:forEach var="n" items="${it.unstableJobs}">
+                  ${n}
+                  <j:set var="c" value="${app.getJob(n.key)}"/>
+                  <a href="${rootURL}/job/${n}" class="model-link">
+                      <img src="${imagesURL}/24x24/${c.iconColor}.png" width="24" height="24" alt=""/>
+                      ${c.displayName} (${n.value})
+                  </a>
+                  <st:nbsp/>
+              </j:forEach>
+          </div>
+      </j:if>
+</j:jelly>
